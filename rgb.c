@@ -129,6 +129,7 @@ void  __attribute__((noinline)) led_strip_write(rgb_color * colors, uint16_t cou
 void fadeLEDs(unsigned char);
 void fadeToBlackBy( rgb_color * colors2 , unsigned char ,unsigned char);
 void MEMORY(rgb_color*colors,rgb_color*colors2);
+
 //***************FUNCIONES INVOLUCRADAS EN EL ENVIO Y CONTROL DE LA TIRA DE LEDS******************************************************************************
 
 void showLED();  //FUNCION DE ENVIO DE LEDS 
@@ -168,7 +169,7 @@ int main(void)
 	 DDRB  &=(0<<PORTB1) ;    //PORTB.0 Y PORTB.1 PONEMOS CON ENTRADA PARA LOS DOS PULSADORES
 	 PORTB |=(1<<PORTB1) ;
 
-     ADMUX = 0b00000010; // AN2 -> ON , ADLAR = 0 , 
+         ADMUX = 0b00000010; // AN2 -> ON , ADLAR = 0 , 
 	 ADCSRA =0b11000111; // activa el adc y habilita a conversion , precaler en 128 , para una  frecuencia e 150k hz 
 	 
 	
