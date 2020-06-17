@@ -179,16 +179,6 @@ int main(void)
 			
 		 LeeADC();
 		 
-		 LEDPosicion ++;
-		 if (LEDPosicion ==255)
-		 {
-			 LEDPosicion = 64;
-		 }
-		 if (LEDPosicion ==65)
-		 {
-			 LEDPosicion = 0;
-		 }
-		/*
 		 if (!(PINB & 0x02)){
 			 _delay_ms(100);
 			 
@@ -214,7 +204,7 @@ int main(void)
 			
 		 }
 		 
-		*/
+		
 		cylonWithHueControl();
 		fadeLEDs(16);
 		showLED(); 
