@@ -126,7 +126,7 @@ void  __attribute__((noinline)) led_strip_write(rgb_color * colors, uint16_t cou
 
 //**************FUNCIONES QUE INVOLUCRAN EL DESVNECIMIENTO DE LOS LEDS ELEGIDOS *****************************************************************************
 
-void fadeLEDs(unsigned char);
+void fadeLEDs(unsigned char,unsigned char);
 void fadeToBlackBy( rgb_color * colors2 , unsigned char ,unsigned char);
 void MEMORY(rgb_color*colors,rgb_color*colors2);
 
@@ -135,7 +135,7 @@ void MEMORY(rgb_color*colors,rgb_color*colors2);
 void showLED();  //FUNCION DE ENVIO DE LEDS 
 rgb_color HsvToRgb(unsigned char,unsigned char,unsigned char);                
 void clearTiraled(rgb_color*colors);                                        
-void cylonWithHueControl();                                                
+void cylonWithHueControl(unsigned char);                                                
 
 //************************FUNCION DE LECTUTA DEL ADC******************************************************************************
 void LeeADC();
@@ -149,13 +149,13 @@ volatile unsigned char ADCvalor;
 rgb_color colors[LED_COUNT+1];                                 
 rgb_color colors2[LED_COUNT+1];
 
-volatile unsigned char LEDPosicion = 0;                           
+
 
 //************************* FUNCION PRENCIPAL Y WHILE ***********************************************************************
 
 int main(void)
-{
-	 
+{ 
+	 static unsigned char LEDPosicion =0 ; 
 	 //DDRD &=(PORTD2);          //  PORTD.2 -->INT0
 	   
 	 //DDRD &=(PORTD3);         // PORTD.3--> INT1
@@ -205,8 +205,8 @@ int main(void)
 		 }
 		 
 		
-		cylonWithHueControl();
-		fadeLEDs(16);
+		cylonWithHueControl(LEDPosicion);
+		fadeLEDs(16,LEDPosicion);
 		showLED(); 
 		
 		_delay_ms(50); 
@@ -237,7 +237,7 @@ void LeeADC(){
 
 //*****************FUNCION QUE CONTROLA LOS LEDS A PRENDER POR MEDIO DE UN POTENCIOMETRO Y ADC
 
-void cylonWithHueControl(){
+void cylonWithHueControl(unsigned char LEDPosicion){
 	 
 	
 	//unsigned char POTVal = 85; 
@@ -258,7 +258,7 @@ void showLED(){  //unsigned char  LEDPos , unsigned char H, unsigned char S, uns
 
 //*******************************FUNCION DE DESVANECIMIENTO DE LOS LEDS INDICADOS **************************************++
 
-void fadeLEDs(unsigned char fadeVal){
+void fadeLEDs(unsigned char fadeVal,unsigned char LEDPosicion){
 	
 	 colors2[LEDPosicion] = colors[LEDPosicion];
 	   
