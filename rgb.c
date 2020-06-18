@@ -146,8 +146,8 @@ volatile unsigned char ADCvalor;
 
 #define LED_COUNT 64                                         // CANTIDAD DE LEDS UTILIZADOS EN TOTAL
 
-rgb_color colors[LED_COUNT];                                 // ARREGLO DE ESTRUCTURAS , CADA UNA CONTENIENDO UN VALOR R G B 
-rgb_color colors2[LED_COUNT];
+rgb_color colors[LED_COUNT+1];                                 // ARREGLO DE ESTRUCTURAS , CADA UNA CONTENIENDO UN VALOR R G B 
+rgb_color colors2[LED_COUNT+1];
 
 volatile unsigned char LEDPosicion = 0;                           // VARIABLE ESTERNA QUE INDICA LA POSICION DEL LED A PRENDER
 
