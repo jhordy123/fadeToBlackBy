@@ -1,5 +1,5 @@
 #include <avr/io.h> //    ATMEGA328P --- atmel studio 7. 
-#define  F_CPU 20000000UL
+#define  F_CPU 16000000UL
 #include "util/delay.h"
 #include "avr/interrupt.h"
 #include "avr/pgmspace.h"
