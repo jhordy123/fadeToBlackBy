@@ -133,44 +133,44 @@ void MEMORY(rgb_color*colors,rgb_color*colors2);
 //***************FUNCIONES INVOLUCRADAS EN EL ENVIO Y CONTROL DE LA TIRA DE LEDS******************************************************************************
 
 void showLED();  //FUNCION DE ENVIO DE LEDS 
-rgb_color HsvToRgb(unsigned char,unsigned char,unsigned char);               // CONVERSION DE HSV-RGB 
-void clearTiraled(rgb_color*colors);                                         //LIMPIA EL ARREGLO DE ESTRUCTURAS DESPUES DE UN ENVIO
-void cylonWithHueControl();                                                //CONTROL DEL MOVIMIENTO DEL LEDS EN LA TIRA LEDS POR MEDIO DE UN POTENCIONETRO
- 
+rgb_color HsvToRgb(unsigned char,unsigned char,unsigned char);                
+void clearTiraled(rgb_color*colors);                                        
+void cylonWithHueControl();                                                
+
 //************************FUNCION DE LECTUTA DEL ADC******************************************************************************
 void LeeADC();
 volatile unsigned char ADCvalor;
-//unsigned char ValorAnteriorADC; 
+
 //**************************VARIABLES Y ARREGLOS UTILIZADOS EN EL ******************************************************************
 
 
-#define LED_COUNT 64                                         // CANTIDAD DE LEDS UTILIZADOS EN TOTAL
+#define LED_COUNT 64                                         
 
-rgb_color colors[LED_COUNT+1];                                 // ARREGLO DE ESTRUCTURAS , CADA UNA CONTENIENDO UN VALOR R G B 
+rgb_color colors[LED_COUNT+1];                                 
 rgb_color colors2[LED_COUNT+1];
 
-volatile unsigned char LEDPosicion = 0;                           // VARIABLE ESTERNA QUE INDICA LA POSICION DEL LED A PRENDER
+volatile unsigned char LEDPosicion = 0;                           
 
 //************************* FUNCION PRENCIPAL Y WHILE ***********************************************************************
 
 int main(void)
 {
 	 
-	 //DDRD &=(PORTD2); // PONEMOS COMO ENTRADA EL PORTD.2 -->INT0
+	 //DDRD &=(PORTD2);          //  PORTD.2 -->INT0
+	   
+	 //DDRD &=(PORTD3);         // PORTD.3--> INT1
 	 
-	 //DDRD &=(PORTD3); //PONEMOS COMO ENTRADA EL PORTD.3--> INT1
 	 
+	 DDRC &=(0<<PORTC2) ;  
 	 
-	 DDRC &=(0<<PORTC2) ;   // PORTC.2 CON ENTRADA -->ADC
-	 
-	 DDRB  &= (0<<PORTB0)  ; // PONEMOS EL PUERTO PORTC  COMO ENTRADA CON PULL-UP ACTIVA
+	 DDRB  &= (0<<PORTB0)  ; 
 	 PORTB |= (1<<PORTB0) ;
 	 
-	 DDRB  &=(0<<PORTB1) ;    //PORTB.0 Y PORTB.1 PONEMOS CON ENTRADA PARA LOS DOS PULSADORES
+	 DDRB  &=(0<<PORTB1) ;    /
 	 PORTB |=(1<<PORTB1) ;
 
-         ADMUX = 0b00000010; // AN2 -> ON , ADLAR = 0 , 
-	 ADCSRA =0b11000111; // activa el adc y habilita a conversion , precaler en 128 , para una  frecuencia e 150k hz 
+         ADMUX = 0b00100010; // AN2 -> ON , ADLAR = 1 ,  
+	 ADCSRA =0b11000110; //  f= 250 khz / 13 = 19khz --> adc
 	 
 	
    while (1) {                 // LAZO INFINITO DEL PROGRAMA 
@@ -228,10 +228,10 @@ void LeeADC(){
 	ADCSRA |=(1<<ADIF);
 	
 	
-	ADCvalor = ADCW * (0.2492668622); 
+	ADCvalor = ADCH; 
 	
 	ADCSRA |=(1<<ADSC);
-	asm("nop");                              // PERDER UN  CICLO DE RELOJ PARA VOLVER A LEER EL ADC.
+	asm("nop");                            
 
 }
 
@@ -242,7 +242,7 @@ void cylonWithHueControl(){
 	
 	//unsigned char POTVal = 85; 
 	unsigned char intensidad = 255; 
-	colors[LEDPosicion] = HsvToRgb(ADCvalor,255,intensidad);       // asigna una estructura con los datos rgb
+	colors[LEDPosicion] = HsvToRgb(ADCvalor,255,intensidad);       
 	
 		
 }
@@ -250,9 +250,9 @@ void cylonWithHueControl(){
 
 void showLED(){  //unsigned char  LEDPos , unsigned char H, unsigned char S, unsigned char V
 	 	
-	led_strip_write(colors,LED_COUNT);      // envia los datos a la tira led . 
-	clearTiraled(colors);                  // limpia el arreglo de estructuras para recibir el siguiente dato
-	MEMORY(colors,colors2);                //RECUERDA LOS LEDS PRENDIDOS ANTERIOR MENTE PARA REASIGNARLOS A LA MATRIS PRINCIPAL
+	led_strip_write(colors,LED_COUNT);       
+	clearTiraled(colors);                 
+	MEMORY(colors,colors2);               
 	
 }
 
